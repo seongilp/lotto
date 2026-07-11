@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.lotto.weekly</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>__LOTTO_ROOT__/scripts/run.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>__LOTTO_ROOT__</string>
+
+    <!-- 매주 토요일 오전 9시 (추첨일, 마감 20:00 이전) -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>6</integer>
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>__LOTTO_ROOT__/logs/launchd.stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>__LOTTO_ROOT__/logs/launchd.stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin</string>
+        <key>TZ</key>
+        <string>Asia/Seoul</string>
+    </dict>
+</dict>
+</plist>

@@ -1,0 +1,41 @@
+name: Weekly Lotto Purchase
+
+on:
+  schedule:
+    # 매주 토요일 00:00 UTC = 토요일 09:00 KST
+    - cron: "0 0 * * 6"
+  workflow_dispatch:
+
+jobs:
+  buy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Write credentials
+        run: |
+          mkdir -p ~/.dhapi
+          cat > ~/.dhapi/credentials <<'EOF'
+          [default]
+          username = "${{ secrets.DHLOTTERY_USERNAME }}"
+          password = "${{ secrets.DHLOTTERY_PASSWORD }}"
+          EOF
+          chmod 600 ~/.dhapi/credentials
+
+      - name: Buy lotto (5 games / 5,000 KRW)
+        run: python scripts/buy_weekly.py
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: purchase-log
+          path: logs/
+          retention-days: 30
