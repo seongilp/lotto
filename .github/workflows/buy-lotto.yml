@@ -2,8 +2,8 @@ name: Weekly Lotto Purchase
 
 on:
   schedule:
-    # 매주 토요일 00:00 UTC = 토요일 09:00 KST
-    - cron: "0 0 * * 6"
+    # 매주 토요일 09:13 KST — 정각(00:00 UTC) 슬롯은 GitHub 혼잡으로 지연/스킵이 잦아 회피
+    - cron: "13 0 * * 6"
   workflow_dispatch:
 
 jobs:
@@ -17,7 +17,10 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        env:
+          # PyPI 배포판 대신 포크 소스를 설치해 수정사항(비밀번호 변경 유예 등)을 반영
+          SETUPTOOLS_SCM_PRETEND_VERSION: '0.0.0'
+        run: pip install "dhapi @ git+https://github.com/seongilp/dhlottery-api@main"
 
       - name: Write credentials
         run: |

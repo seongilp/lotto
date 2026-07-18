@@ -101,12 +101,12 @@ def buy_lotto(profile: str, games: int, dry_run: bool) -> int:
     client = build_lottery_client(cred.get_user())
 
     balance = get_purchasable_balance(client)
-    logging.info("구매 가능 예치금: %,d원", balance)
+    logging.info("구매 가능 예치금: %s원", f"{balance:,}")
     if balance < amount:
         logging.error(
-            "예치금이 부족합니다. %,d원 이상 충전 후 다시 시도하세요. "
+            "예치금이 부족합니다. %s원 이상 충전 후 다시 시도하세요. "
             "동행복권 > 마이페이지 > 예치금 충전",
-            amount,
+            f"{amount:,}",
         )
         return 1
 
